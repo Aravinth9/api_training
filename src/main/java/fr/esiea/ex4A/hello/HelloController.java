@@ -1,9 +1,10 @@
 package fr.esiea.ex4A.hello;
 
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 class HelloController {
@@ -23,5 +24,20 @@ class HelloController {
             helloData = helloRepository.getHelloFor(name);
         }
         return helloData;
+    }
+    @PostMapping(path = "/api/inscription", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> responseEntity(@RequestParam Map<String, String> body) {
+        if(body.containsKey("userEmail")
+            && body.containsKey("userName")
+            && body.containsKey("userTweeter")
+            && body.containsKey("userCountry")
+            && body.containsKey("userSex")
+            && body.containsKey("userSexPref")) {
+            if(body.get("userSex").matches("^[OMF]$") && body.get("userSexPref").matches("^[OMF]$")) {
+                System.out.println(body);
+                return ResponseEntity.status(201).body(body);
+            }
+        }
+        return ResponseEntity.status(404).body("Erreur format");
     }
 }
