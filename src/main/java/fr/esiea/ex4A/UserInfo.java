@@ -64,10 +64,24 @@ public class UserInfo {
     public String getUserSexPref() {
         return userSexPref;
     }
-
     public Optional<Integer> getAge() {
         return age;
     }
+
+    @Override
+    public String toString() {
+        return "VOICI LES INFOS UserInfo{" +
+            "userName='" + userName + '\'' +
+            ", userCountry='" + userCountry + '\'' +
+            ", userTweeter='" + userTweeter + '\'' +
+            ", userMail='" + userMail + '\'' +
+            ", userSex='" + userSex + '\'' +
+            ", userSexPref='" + userSexPref + '\'' +
+            ", age=" + age +
+            '}';
+    }
+
+
 }
 
 
