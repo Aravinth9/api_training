@@ -20,21 +20,14 @@ public class AgifyService {
 
 
 
-    public String getUser(String userName, String userCountry) {
-        String reponse = " ";
-        Call<UserInfo> agifyResponseCall = agifyClient.getUser(userName, userCountry);
-        try {
-            Response<UserInfo> bite = agifyResponseCall.execute();
-            reponse = "ok";
-            if (bite.isSuccessful()) {
-                System.out.println(reponse);
-            }
-        } catch (IOException exception) {
-            reponse = "ko";
-            exception.printStackTrace();
+    public UserInfo getUser(String userName) {
+        for (UserInfo u : userRepo.getUserList())
+        {
+            if (u.getUserName().equals(userName))
+                return u;
         }
 
-        return reponse;
+        return null;
     }
 
 
@@ -46,12 +39,27 @@ public class AgifyService {
         return userRepo.getUserList();
     }
 
-    public boolean isHere(UserInfo userInfo) {
+    public boolean exists(UserInfo userInfo) {
         for (UserInfo u : userRepo.getUserList()) {
             if (u.getUserName().equals(userInfo.getUserName())) {
                 return true;
             }
         }
         return false;
+    }
+    public int getUserAge(String userName, String country_id){
+        int age = 0;
+        Call<AgifyResponse> agifyResponseCall = agifyClient.agifyRequest(userName,country_id);
+        try {
+            Response<AgifyResponse> response = agifyResponseCall.execute();
+            if(response.isSuccessful()){
+                assert response.body() != null;
+                age = response.body().getAge();
+            }
+        }
+        catch (IOException exception){
+            exception.printStackTrace();
+        }
+        return age;
     }
 }

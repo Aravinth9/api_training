@@ -1,13 +1,14 @@
 package fr.esiea.ex4A;
 
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 class Controller {
@@ -15,37 +16,39 @@ class Controller {
     @Autowired
     private AgifyService agifyService;
 
-    /*
-        @GetMapping(path = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
-        UserInfo Creation(@RequestParam(name = "name", required = false) String name,@RequestParam(name = "caca", required = false) String caca ) {
-            //UserInfo userInfo = new UserInfo(name, caca);
-            //System.out.println((userInfo));
-            //return new UserInfo("ij","ij","ij","ij", "userCountry");
-            // return body;
-            //return new UserInfo("ziaj", "ioji");
-            return new UserInfo("ij","ij","ij","ij","ij","ij", java.util.Optional.of(15));
-        }
-
-
-     */
     @GetMapping(path = "/api/matches", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Object> match(@RequestParam(name = "userName") String userName, @RequestParam(name = "userCountry") String userCountry) {
-        UserInfo userinfo = new UserInfo("son nom","son nom","son nom","son nom","son nom","son nom", java.util.Optional.of(14));
-        return ResponseEntity.status(HttpStatus.OK).body(userinfo);
+        int age = agifyService.getUser(userName).getUserAge();
+        Sex userSexPref = agifyService.getUser(userName).getUserSexPref();
+        List<UserInfo> usermatches = agifyService.getAll().stream()
+            .filter(x -> !x.getUserName().equals(userName) &&
+                x.getUserSex().equals(userSexPref) &&
+                x.getUserAge() >= age - 4 &&
+                x.getUserAge() <= age + 4)
+            .collect(Collectors.toList());
+        List<Match> listMatches = new ArrayList<>();
+        for (UserInfo user : usermatches) {
+            Match matches = new Match(user.getUserName(), user.getUserTweeter());
+            listMatches.add(matches);
+        }
+        if (listMatches.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No matches found");
+        } else {
+            System.out.println(ResponseEntity.status(HttpStatus.FOUND).body(listMatches));
+            return ResponseEntity.status(HttpStatus.OK).body(listMatches);
+        }
     }
     @PostMapping(path = "/inscription", produces = MediaType.APPLICATION_JSON_VALUE)
-    void inscription (@RequestBody UserInfo userInfo){
-        agifyService.add(userInfo);
-        System.out.println(agifyService.getAll().get(0));
+        public ResponseEntity<Object> responseEntity (@RequestBody UserInfo userInfo) {
+        if(agifyService.exists(userInfo)){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("User already exists");
+        }
+        else {
+            int age = agifyService.getUserAge(userInfo.getUserName(), userInfo.getUserCountry());
+            UserInfo matchableUser = new UserInfo(userInfo , age);
+            agifyService.add(matchableUser);
+            System.out.println(agifyService.getAll());
+            return ResponseEntity.status(HttpStatus.CREATED).body(matchableUser);
+        }
     }
-
-    /*
-    @GetMapping
-    List<match> matches(){
-        return List.of(
-            new match("eokp","fei"),
-            new match("iopzjda", "iojoi")
-        );
-  }
-  */
 }

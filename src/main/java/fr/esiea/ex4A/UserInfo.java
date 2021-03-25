@@ -4,16 +4,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Optional;
 
+enum Sex {
+    M,
+    F,
+    O
+}
+
 public class UserInfo {
     public final String userName;
     public final String userCountry;
     private final String userTweeter;
     private final String userMail;
-    private final String userSex;
-    private final String userSexPref;
+    private final Sex userSex;
+    private final Sex userSexPref;
     private final Optional<Integer> age;
 
-    public UserInfo(String userName, String userCountry, String userTweeter, String userMail, String userSex, String userSexPref, Optional<Integer> age) {
+    public UserInfo(String userName, String userCountry, String userTweeter, String userMail, Sex userSex, Sex userSexPref, Optional<Integer> age) {
         this.userName = userName;
         this.userCountry = userCountry;
         this.userTweeter = userTweeter;
@@ -27,8 +33,8 @@ public class UserInfo {
                     @JsonProperty("userCountry") String userCountry,
                     @JsonProperty("userTweeter") String userTweeter,
                     @JsonProperty("userEmail") String userMail,
-                    @JsonProperty("userSex") String userSex,
-                    @JsonProperty("userSexPref") String userSexPref) {
+                    @JsonProperty("userSex") Sex userSex,
+                    @JsonProperty("userSexPref") Sex userSexPref) {
             this.userName = userName;
             this.userCountry = userCountry;
             this.userMail = userMail;
@@ -38,8 +44,17 @@ public class UserInfo {
             this.age = Optional.empty();
         }
 
+    public UserInfo(UserInfo userInfo, int age) {
+        this.userMail = userInfo.userMail;
+        this.userName = userInfo.userName;
+        this.userTweeter = userInfo.userTweeter;
+        this.userCountry = userInfo.userCountry;
+        this.userSex = userInfo.userSex;
+        this.userSexPref = userInfo.userSexPref;
+        this.age = Optional.of(age);
+    }
 
-
+    public Integer getUserAge(){return age.get();}
 
     public String getUserName() {
         return userName;
@@ -57,11 +72,11 @@ public class UserInfo {
         return userMail;
     }
 
-    public String getUserSex() {
+    public Sex getUserSex() {
         return userSex;
     }
 
-    public String getUserSexPref() {
+    public Sex getUserSexPref() {
         return userSexPref;
     }
     public Optional<Integer> getAge() {

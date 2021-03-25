@@ -1,6 +1,6 @@
 package fr.esiea.ex4A;
 
-public class match {
+public class Match {
     public final String name;
     public final String twitter;
 
@@ -8,7 +8,7 @@ public class match {
         return twitter;
     }
 
-    public match(String name, String twitter) {
+    public Match(String name, String twitter) {
         this.name = name;
         this.twitter = twitter;
     }
