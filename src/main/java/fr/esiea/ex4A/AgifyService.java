@@ -32,7 +32,7 @@ public class AgifyService {
 
 
     public boolean add(UserInfo userInfo) {
-        return userRepo.getUserList().add(userInfo);
+        return userRepo.addUser(userInfo);
     }
 
     public ArrayList<UserInfo> getAll(){

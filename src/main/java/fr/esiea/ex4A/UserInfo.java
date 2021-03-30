@@ -83,9 +83,10 @@ public class UserInfo {
         return age;
     }
 
+
     @Override
     public String toString() {
-        return "VOICI LES INFOS UserInfo{" +
+        return "\nUserInfo{" +
             "userName='" + userName + '\'' +
             ", userCountry='" + userCountry + '\'' +
             ", userTweeter='" + userTweeter + '\'' +
@@ -93,7 +94,7 @@ public class UserInfo {
             ", userSex='" + userSex + '\'' +
             ", userSexPref='" + userSexPref + '\'' +
             ", age=" + age +
-            '}';
+            "} \n";
     }
 
 

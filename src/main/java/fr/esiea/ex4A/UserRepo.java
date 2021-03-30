@@ -12,4 +12,9 @@ public class UserRepo {
     public ArrayList<UserInfo> getUserList() {
         return this.userList;
     }
+
+    public boolean addUser(UserInfo userInfo){
+        this.userList.add(userInfo);
+        return true;
+    }
 }

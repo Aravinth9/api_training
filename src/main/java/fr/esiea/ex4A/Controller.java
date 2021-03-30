@@ -38,17 +38,17 @@ class Controller {
             return ResponseEntity.status(HttpStatus.OK).body(listMatches);
         }
     }
-    @PostMapping(path = "/inscription", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/api/inscription", produces = MediaType.APPLICATION_JSON_VALUE)
         public ResponseEntity<Object> responseEntity (@RequestBody UserInfo userInfo) {
         if(agifyService.exists(userInfo)){
             return ResponseEntity.status(HttpStatus.CONFLICT).body("User already exists");
         }
         else {
             int age = agifyService.getUserAge(userInfo.getUserName(), userInfo.getUserCountry());
-            UserInfo matchableUser = new UserInfo(userInfo , age);
-            agifyService.add(matchableUser);
+            UserInfo newUser = new UserInfo(userInfo , age);
+            agifyService.add(newUser);
             System.out.println(agifyService.getAll());
-            return ResponseEntity.status(HttpStatus.CREATED).body(matchableUser);
+            return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
         }
     }
 }
