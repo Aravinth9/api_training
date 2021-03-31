@@ -1,4 +1,4 @@
-package fr.esiea.ex4A;
+package fr.esiea.ex4A.matchify;
 
 public class Match {
     public final String name;

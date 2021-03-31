@@ -1,4 +1,4 @@
-package fr.esiea.ex4A;
+package fr.esiea.ex4A.matchify;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
