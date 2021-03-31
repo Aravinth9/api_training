@@ -13,7 +13,7 @@
 <div class="container mt-5 border border-3 rounded bg-light">
     <h2>Inscription</h2>
     <div style="margin-left: 40px;">
-        <form action="/api/inscription" method="POST" name="inscription" id="inscription">
+        <form action="/inscription" method="POST" name="inscription" id="inscription">
             <div class="row justify-content-start">
                 <div class="col-6">
                     <div class="mb-3">
@@ -80,10 +80,15 @@
         var xhr = new XMLHttpRequest();
         xhr.open(form.method, form.action, true);
         xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+        xhr.onreadystatechange = () => {
+            document.location.href = "/home.html?name=" + encodeURIComponent(formData.userName) + "&country=" + encodeURIComponent(formData.userCountry);
+        };
         xhr.send(JSON.stringify(formData));
+
 
         document.location.href = "/home.html?name=" + encodeURIComponent(formData.userName) + "&country=" + encodeURIComponent(formData.userCountry);
     }
+
 
     document.getElementById('inscription').onsubmit = function() {
         submitForm();
