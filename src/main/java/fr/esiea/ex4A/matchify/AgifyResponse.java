@@ -10,7 +10,6 @@ public class AgifyResponse {
     public final String userId;
     public final String country_id;
 
-    @JsonCreator
     public AgifyResponse(@JsonProperty("name") String name,
                          @JsonProperty("age") int age,
                          @JsonProperty("count") int count,
@@ -32,5 +31,17 @@ public class AgifyResponse {
 
     public String getName() {
         return name;
+    }
+    public int getCount() {
+        return count;
+    }
+    @Override
+    public String toString() {
+        return "\nAgify Respoonse{" +
+            "userName='" + name + '\'' +
+            ", ountry='" + country_id + '\'' +
+            ", userid='" + userId + '\'' +
+            ", age=" + age +
+            "} \n";
     }
 }

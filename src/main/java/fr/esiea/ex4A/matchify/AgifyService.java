@@ -17,49 +17,27 @@ public class AgifyService {
         this.agifyClient = agifyClient;
         this.userRepo = userRepo;
     }
+    public AgifyResponse getUserAge(String userName, String country_id) throws IOException {
+        AgifyResponse agifyResponse = this.agifyClient.agifyRequest(userName, country_id).execute().body();
+        return agifyResponse;
+    }
 
+    void addNewUser(UserInfo userData, AgifyResponse agifyResponse){
+        this.userRepo.addUser(userData,agifyResponse);
+    }
 
-
-    public UserInfo getUser(String userName) {
-        for (UserInfo u : userRepo.getUserList())
-        {
-            if (u.getUserName().equals(userName))
-                return u;
+    public void get (String userName)
+    {
+        UserInfo userInfo = userRepo.getName(userName);
+        int age = userRepo.match(userInfo);
+    }
+    public ArrayList<UserInfo> matchUser(String userName, String userCountry){
+        UserInfo userRequestingMatch = userRepo.getName(userName);
+        if(userRequestingMatch != null){
+            return userRepo.matchUser(userRequestingMatch);
+        } else {
+            return new ArrayList<>();
         }
-
-        return null;
     }
 
-
-    public boolean add(UserInfo userInfo) {
-        return userRepo.addUser(userInfo);
-    }
-
-    public ArrayList<UserInfo> getAll(){
-        return userRepo.getUserList();
-    }
-
-    public boolean exists(UserInfo userInfo) {
-        for (UserInfo u : userRepo.getUserList()) {
-            if (u.getUserName().equals(userInfo.getUserName())) {
-                return true;
-            }
-        }
-        return false;
-    }
-    public int getUserAge(String userName, String country_id){
-        int age = 0;
-        Call<AgifyResponse> agifyResponseCall = agifyClient.agifyRequest(userName,country_id);
-        try {
-            Response<AgifyResponse> response = agifyResponseCall.execute();
-            if(response.isSuccessful()){
-                assert response.body() != null;
-                age = response.body().getAge();
-            }
-        }
-        catch (IOException exception){
-            exception.printStackTrace();
-        }
-        return age;
-    }
 }
