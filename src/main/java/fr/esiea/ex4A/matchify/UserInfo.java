@@ -17,12 +17,7 @@ public class UserInfo {
     private final Sex userSex;
     private final Sex userSexPref;
 
-    public UserInfo(@JsonProperty("userName") String userName,
-                    @JsonProperty("userCountry") String userCountry,
-                    @JsonProperty("userTweeter") String userTweeter,
-                    @JsonProperty("userEmail") String userMail,
-                    @JsonProperty("userSex") Sex userSex,
-                    @JsonProperty("userSexPref") Sex userSexPref) {
+    public UserInfo(@JsonProperty("userName") String userName, @JsonProperty("userCountry") String userCountry, @JsonProperty("userTweeter") String userTweeter, @JsonProperty("userEmail") String userMail, @JsonProperty("userSex") Sex userSex, @JsonProperty("userSexPref") Sex userSexPref) {
             this.userName = userName;
             this.userCountry = userCountry;
             this.userMail = userMail;

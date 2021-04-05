@@ -17,6 +17,10 @@ public class UserRepo {
         this.userList.put(userInfo.getUserName(), userInfo);
         this.userListWithAge.put(userInfo.getUserName(), agifyResponse);
     }
+    public boolean exists (UserInfo userInfo)
+    {
+        return this.userList.containsKey(userInfo.getUserName());
+    }
 
     ArrayList<UserInfo> getUser() {
         ArrayList<UserInfo> matchingUsers = new ArrayList<>();

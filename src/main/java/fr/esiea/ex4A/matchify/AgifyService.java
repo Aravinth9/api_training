@@ -17,6 +17,11 @@ public class AgifyService {
         this.agifyClient = agifyClient;
         this.userRepo = userRepo;
     }
+
+    public boolean exists (UserInfo userInfo)
+    {
+        return this.userRepo.exists(userInfo);
+    }
     public AgifyResponse getUserAge(String userName, String country_id) throws IOException {
         AgifyResponse agifyResponse = this.agifyClient.agifyRequest(userName, country_id).execute().body();
         return agifyResponse;
